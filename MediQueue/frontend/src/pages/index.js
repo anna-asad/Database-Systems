@@ -1,0 +1,11 @@
+export { default as Login } from './Login';
+export { default as RoleSelection } from './RoleSelection';
+export { default as PatientRegister } from './PatientRegister';
+export { default as DoctorRegister } from './DoctorRegister';
+export { default as AdminRegister } from './AdminRegister';
+export { default as PatientProfile } from './PatientProfile';
+export { default as DoctorProfile } from './DoctorProfile';
+export { default as DoctorDashboard } from './DoctorDashboard';
+export { default as AdminDashboard } from './AdminDashboard';
+export { default as AdminProfile } from './AdminProfile';
+export { default as PatientDashboard } from './PatientDashboard';

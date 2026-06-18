@@ -1,0 +1,29 @@
+{
+  "name": "mediqueue-testing",
+  "version": "1.0.0",
+  "description": "Comprehensive testing suite for MediQueue application",
+  "main": "automated_api_tests.js",
+  "scripts": {
+    "test": "node automated_api_tests.js",
+    "test:api": "node automated_api_tests.js",
+    "test:db": "echo 'Run database_test_script.sql in SQL Server Management Studio'",
+    "test:postman": "newman run MediQueue_Postman_Collection.json -e environment.json --reporters cli,json --reporter-json-export results.json",
+    "install-newman": "npm install -g newman",
+    "setup": "npm install && npm run install-newman"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "colors": "^1.4.0"
+  },
+  "devDependencies": {
+    "newman": "^6.0.0"
+  },
+  "keywords": [
+    "testing",
+    "api",
+    "mediqueue",
+    "automation"
+  ],
+  "author": "MediQueue Team",
+  "license": "MIT"
+}

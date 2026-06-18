@@ -1,0 +1,186 @@
+.token-card-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.token-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.token-header {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.token-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.token-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 16px;
+}
+
+.token-number-section {
+    background: #f8f9fa;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 3px dashed #e0e0e0;
+}
+
+.token-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.token-number {
+    font-size: 72px;
+    font-weight: 900;
+    color: #4CAF50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Courier New', monospace;
+}
+
+.appointment-details {
+    padding: 30px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-icon {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+}
+
+.detail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.token-actions {
+    padding: 20px 30px;
+    display: flex;
+    gap: 10px;
+    background: #f8f9fa;
+}
+
+.btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: #333;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    border-color: #4CAF50;
+    color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+.token-footer {
+    padding: 20px 30px;
+    background: #fff3cd;
+    border-top: 1px solid #ffc107;
+}
+
+.token-footer p {
+    margin: 8px 0;
+    font-size: 13px;
+    color: #856404;
+}
+
+@media print {
+    .token-card-container {
+        background: white;
+    }
+
+    .token-actions {
+        display: none;
+    }
+
+    .token-card {
+        box-shadow: none;
+        border: 2px solid #333;
+    }
+}
+
+@media (max-width: 768px) {
+    .token-number {
+        font-size: 56px;
+    }
+
+    .token-header h2 {
+        font-size: 24px;
+    }
+
+    .token-actions {
+        flex-direction: column;
+    }
+
+    .detail-value {
+        font-size: 14px;
+    }
+}

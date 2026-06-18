@@ -1,0 +1,10 @@
+node_modules/
+.env
+dist/
+
+# Documentation files (not needed in repo)
+AUTHENTICATION_GUIDE.md
+TEST_AUTH.md
+PROFILE_MANAGEMENT.md
+AUTH_SETUP.md
+hello.py

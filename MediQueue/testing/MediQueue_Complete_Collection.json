@@ -1,0 +1,1039 @@
+{
+	"info": {
+		"name": "MediQueue Complete API - All 14 Functionalities",
+		"description": "Complete testing suite covering all 14 required functionalities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "adminToken",
+			"value": ""
+		},
+		{
+			"key": "doctorToken",
+			"value": ""
+		},
+		{
+			"key": "patientToken",
+			"value": ""
+		},
+		{
+			"key": "testPatientId",
+			"value": "25"
+		},
+		{
+			"key": "testDoctorId",
+			"value": "24"
+		},
+		{
+			"key": "testAdminId",
+			"value": "23"
+		},
+		{
+			"key": "testAppointmentId",
+			"value": ""
+		},
+		{
+			"key": "testLeaveId",
+			"value": ""
+		}
+	],
+	"item": [
+		{
+			"name": "F1-F2: User Registration & Login",
+			"item": [
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Admin login successful', () => {",
+									"    pm.response.to.have.status(200);",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('adminToken', response.token);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"admin@mediqueue.com\", \"password\": \"admin123\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Doctor Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Doctor login successful', () => {",
+									"    pm.response.to.have.status(200);",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('doctorToken', response.token);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"doctor@mediqueue.com\", \"password\": \"doctor123\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Patient Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Patient login successful', () => {",
+									"    pm.response.to.have.status(200);",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('patientToken', response.token);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"patient@mediqueue.com\", \"password\": \"patient123\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F3: Profile Management",
+			"item": [
+				{
+					"name": "Get Patient Profile",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Patient Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"fullName\": \"Updated Patient Name\", \"contactNumber\": \"03001234567\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Doctor Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{doctorToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"fullName\": \"Dr. Updated Name\", \"specialization\": \"Cardiology\", \"consultationFee\": 2000}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "doctors", "profile"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F4-F5-F6: Appointment Booking & Token System",
+			"item": [
+				{
+					"name": "Book Appointment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Appointment booked', () => {",
+									"    pm.response.to.have.status(201);",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('testAppointmentId', response.appointmentID);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-05-15\", \"timeSlot\": \"09:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "Get Queue Status (Token & Position)",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F7: Walk-In Appointment",
+			"item": [
+				{
+					"name": "Create Walk-In Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"patientID\": {{testPatientId}}, \"doctorID\": {{testDoctorId}}, \"timeSlot\": \"14:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/walkin",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "walkin"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F8: Doctor Dashboard",
+			"item": [
+				{
+					"name": "Get Today's Appointments",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{doctorToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors/dashboard",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "doctors", "dashboard"]
+						}
+					}
+				},
+				{
+					"name": "Call Next Patient",
+					"request": {
+						"method": "PUT",
+						"header": [{"key": "Authorization", "value": "Bearer {{doctorToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors/appointments/{{testAppointmentId}}/call",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "doctors", "appointments", "{{testAppointmentId}}", "call"]
+						}
+					}
+				},
+				{
+					"name": "Complete Appointment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{doctorToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"remarks\": \"Patient examined\", \"diagnosis\": \"Common cold\", \"prescription\": \"Rest and fluids\", \"notes\": \"Follow up in 1 week\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors/appointments/{{testAppointmentId}}/complete",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "doctors", "appointments", "{{testAppointmentId}}", "complete"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F9: Admin Dashboard",
+			"item": [
+				{
+					"name": "Get Admin Stats",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Get All Patients",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/patients",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "patients"]
+						}
+					}
+				},
+				{
+					"name": "Get All Doctors",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/doctors",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "doctors"]
+						}
+					}
+				},
+				{
+					"name": "Get All Appointments",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "appointments"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F10: Reschedule & Cancel",
+			"item": [
+				{
+					"name": "Reschedule Appointment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"newDate\": \"2026-05-16\", \"newTimeSlot\": \"10:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/reschedule",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "reschedule"]
+						}
+					}
+				},
+				{
+					"name": "Cancel Appointment",
+					"request": {
+						"method": "PUT",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/cancel",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "cancel"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F11: Leave Management",
+			"item": [
+				{
+					"name": "Doctor Apply for Leave",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Leave request submitted', () => {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{doctorToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"startDate\": \"2026-06-01\", \"endDate\": \"2026-06-05\", \"reason\": \"Personal\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/doctors/leaves",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "doctors", "leaves"]
+						}
+					}
+				},
+				{
+					"name": "Get All Leave Requests (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/leaves",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "leaves"]
+						}
+					}
+				},
+				{
+					"name": "Approve Leave Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"Approved\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/leaves/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "leaves", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F12: Patient History & Statistics",
+			"item": [
+				{
+					"name": "Get Patient Appointment History",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/history",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "history"]
+						}
+					}
+				},
+				{
+					"name": "Get Patient Visit Statistics",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Get Medical Records",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/medical-records",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "medical-records"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F13: Blacklist System",
+			"item": [
+				{
+					"name": "Mark Appointment as Missed",
+					"request": {
+						"method": "PUT",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/miss",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "miss"]
+						}
+					}
+				},
+				{
+					"name": "Get Blacklisted Patients",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/blacklist",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "blacklist"]
+						}
+					}
+				},
+				{
+					"name": "Manually Blacklist Patient",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"blacklist\": true}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/patients/{{testPatientId}}/blacklist",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "patients", "{{testPatientId}}", "blacklist"]
+						}
+					}
+				},
+				{
+					"name": "Remove Blacklist",
+					"request": {
+						"method": "PUT",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/blacklist/{{testPatientId}}/remove",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "blacklist", "{{testPatientId}}", "remove"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "F14: Fee & Billing System",
+			"item": [
+				{
+					"name": "Get Patient Billing History",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/bills",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "bills"]
+						}
+					}
+				},
+				{
+					"name": "Get Billing Details by Appointment",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/billing/appointment/{{testAppointmentId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "billing", "appointment", "{{testAppointmentId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EDGE CASES: Blacklist",
+			"item": [
+				{
+					"name": "EC1: Book Appointment for Edge Testing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Appointment booked for edge testing', () => {",
+									"    pm.response.to.have.status(201);",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('edgeTestAppointmentId', response.appointmentID);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-05-20\", \"timeSlot\": \"11:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "EC2: Mark 1st Appointment Missed",
+					"request": {
+						"method": "PUT",
+						"header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{edgeTestAppointmentId}}/miss",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{edgeTestAppointmentId}}", "miss"]
+						}
+					}
+				},
+				{
+					"name": "EC3: Verify Patient NOT Blacklisted (1 missed)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Patient not blacklisted after 1 missed', () => {",
+									"    pm.response.to.have.status(200);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.IsBlacklisted).to.equal(0);",
+									"    pm.expect(response.MissedVisits).to.equal(1);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "stats"]
+						}
+					}
+				},
+				{
+					"name": "EC4: Try Booking When Blacklisted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Blacklisted patient booking rejected', () => {",
+									"    pm.response.to.have.status(403);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.include('blacklisted');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-05-25\", \"timeSlot\": \"14:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "EC5: Try Walk-In When Blacklisted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Blacklisted patient walk-in rejected', () => {",
+									"    pm.response.to.have.status(403);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.include('blacklisted');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"patientID\": {{testPatientId}}, \"doctorID\": {{testDoctorId}}, \"timeSlot\": \"15:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/walkin",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "walkin"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EDGE CASES: Duplicate Booking",
+			"item": [
+				{
+					"name": "EC6: Book Appointment Slot A",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('First booking successful', () => {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-05-30\", \"timeSlot\": \"09:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "EC7: Try Duplicate Booking Same Slot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Duplicate booking rejected', () => {",
+									"    pm.response.to.have.status(400);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.include('already booked');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-05-30\", \"timeSlot\": \"09:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EDGE CASES: Rescheduling",
+			"item": [
+				{
+					"name": "EC8: Try Reschedule to Already Booked Slot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Reschedule to booked slot rejected', () => {",
+									"    pm.response.to.have.status(400);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.include('already booked');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"newDate\": \"2026-05-30\", \"newTimeSlot\": \"09:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/reschedule",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "reschedule"]
+						}
+					}
+				},
+				{
+					"name": "EC9: Try Reschedule to Past Date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Reschedule to past date rejected', () => {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"newDate\": \"2020-01-01\", \"newTimeSlot\": \"10:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments/{{testAppointmentId}}/reschedule",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments", "{{testAppointmentId}}", "reschedule"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EDGE CASES: Authorization",
+			"item": [
+				{
+					"name": "EC10: Patient Access Admin Route (Forbidden)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Patient accessing admin route rejected', () => {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{patientToken}}"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "stats"]
+						}
+					}
+				},
+				{
+					"name": "EC11: No Token Provided (Unauthorized)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('No token returns 401', () => {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "profile"]
+						}
+					}
+				},
+				{
+					"name": "EC12: Invalid Token Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Invalid token rejected', () => {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer invalidtoken123"}],
+						"url": {
+							"raw": "{{baseUrl}}/api/patients/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "patients", "profile"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "EDGE CASES: Doctor Availability",
+			"item": [
+				{
+					"name": "EC13: Set Doctor Unavailable",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"isAvailable\": false}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/doctors/{{testDoctorId}}/availability",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "doctors", "{{testDoctorId}}", "availability"]
+						}
+					}
+				},
+				{
+					"name": "EC14: Try Booking Unavailable Doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Booking unavailable doctor rejected', () => {",
+									"    pm.response.to.have.status(400);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.include('not available');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{patientToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"doctorID\": {{testDoctorId}}, \"appointmentDate\": \"2026-06-01\", \"timeSlot\": \"10:00\"}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/appointments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "appointments"]
+						}
+					}
+				},
+				{
+					"name": "EC15: Set Doctor Available Again",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{adminToken}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"isAvailable\": true}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/doctors/{{testDoctorId}}/availability",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "doctors", "{{testDoctorId}}", "availability"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
